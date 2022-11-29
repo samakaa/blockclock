@@ -1,0 +1,31 @@
+
+<style>
+table, th, td {
+border:1px solid black;width:130%;
+}
+</style>
+<table  style="table-layout: fixed" ;
+
+style="width:500%">
+<tr>
+<th>Gender</th>
+<th>name</th>
+<th>Email</th>
+<th>Country</th>
+</tr>
+
+<tr>
+<td>
+ <%= @data.latest_block.gender %>
+</td>
+<td>
+ <%= @data.latest_block.name["first"] %>
+</td>
+<td>
+   <%= @data.latest_block.email %>
+  </td>
+  <td>
+     <%= @data.latest_block.location["city"] %>
+    </td>
+</tr>
+</table>
