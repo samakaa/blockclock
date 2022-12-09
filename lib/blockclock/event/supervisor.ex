@@ -1,4 +1,4 @@
-defmodule BlockClock.Workers.Supervisor do
+defmodule BlockClock.Event.Supervisor do
 
   @doc"""
   The Supervisor which keeps track of our `DataWorker` GenServer.
@@ -6,7 +6,7 @@ defmodule BlockClock.Workers.Supervisor do
 
   use Supervisor
 
-  alias BlockClock.Workers.DataWorker
+  alias BlockClock.Event.DataEvent
 
   def start_link(opts \\ []) do
     Supervisor.start_link(__MODULE__, opts, name: __MODULE__)
@@ -20,7 +20,7 @@ defmodule BlockClock.Workers.Supervisor do
       _ ->
         children = [
           # Pepare the worker specs
-          {DataWorker, Keyword.get([opts], :data_worker)}
+          {DataEvent, Keyword.get([opts], :data_event)}
 
         ]
 

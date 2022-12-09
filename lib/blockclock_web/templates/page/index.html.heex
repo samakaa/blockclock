@@ -1,0 +1,22 @@
+<%=  for event <- @req do %>
+  <%= if event["CT"]=="Esoccer Live Arena - 10 mins play" do %>
+
+  <%=# event["CT"] %>
+<br>
+-----------
+<br>
+  <%= event["NA"] %>
+  <br>
+  ---------------
+  <br>
+  <%= event["SS"] %>
+  <br>
+  ---------------
+  <br>
+  -------------
+  <%= event["TM"] %> : <%= event["TS"] %>
+  <br>
+  -----<br>
+  <% end %>
+
+<% end %>

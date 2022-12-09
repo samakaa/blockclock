@@ -1,4 +1,4 @@
-defmodule BlockClock.Store.Supervisor do
+defmodule BlockClock.Match.Supervisor do
 
   @doc"""
   The Supervisor which keeps track of our `Store` GenServer.
@@ -13,9 +13,9 @@ defmodule BlockClock.Store.Supervisor do
   @impl true
   def init(:ok) do
     children = [
-      BlockClock.Store
+      BlockClock.Match
     ]
-    
+
 
     Supervisor.init( children,strategy: :one_for_one)
   end

@@ -17,8 +17,9 @@ defmodule BlockclockWeb.Router do
   scope "/", BlockclockWeb do
     pipe_through :browser
 
-    #get "/", PageController, :index
-    live "/", PageLive, :index
+    get "/index", PageController, :index
+    live "/", PageLive
+      live "/:id", EventLive
   end
 
   # Other scopes may use custom stacks.

@@ -7,6 +7,8 @@ defmodule Blockclock.Application do
 
   @impl true
   @tmp Application.compile_env(:block_clock, BlockClock.Workers)
+#  @tmp Application.compile_env(:block_clock, BlockClock.Event)
+
   def start(_type, _args) do
     children = [
       # Start the Ecto repository
@@ -20,7 +22,11 @@ defmodule Blockclock.Application do
       # Start a worker by calling: Blockclock.Worker.start_link(arg)
       # {Blockclock.Worker, arg}
       BlockClock.Store.Supervisor,
+      BlockClock.Match.Supervisor,
+
       {BlockClock.Workers.Supervisor, workers_config()}
+      #{BlockClock.Event.Supervisor, event_config()}
+
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
@@ -41,4 +47,9 @@ defmodule Blockclock.Application do
     Application.get_env(:block_clock, BlockClock.Workers)
     #Application.compile_env
   end
+  #@spec event_config :: any
+  #def event_config() do
+  #  Application.get_env(:block_clock, BlockClock.Event)
+    #Application.compile_env
+  #end
 end

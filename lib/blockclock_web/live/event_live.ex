@@ -1,9 +1,8 @@
-defmodule BlockclockWeb.PageLive do
+defmodule BlockclockWeb.EventLive do
   use BlockclockWeb, :live_view
   use Timex
 
-  alias BlockClock.Store
-
+  alias BlockClock.Match
   @impl true
   def mount(_params, _session, socket) do
     # As soon as the client it connected, we try to connect with the LiveView
@@ -11,17 +10,19 @@ defmodule BlockclockWeb.PageLive do
     # After we've subscribed, we'll be notified about updates in our data
     # store.
     if connected?(socket) do
-      Store.subscribe()
+      Match.subscribe()
     end
 
     # Fetch data from the store (if there are any already)
-    data = Store.get()
-    # if data.latest_block do
+    data = Match.get()
+
+
 
 
     {:ok, assign(socket, data: data)}
-#  end
   end
+  def handle_params(_unsigned_params, uri, socket), do: {:noreply, assign(socket, uri: URI.parse(uri))}
+
 
   @doc"""
   Accept new data from our Store subscription.

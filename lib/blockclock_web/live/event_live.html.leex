@@ -1,0 +1,21 @@
+
+<%aa= @uri.path %>
+ <% bb= String.slice(aa, 1..9)|>to_string()%>
+
+ <%=  for event <- @data.latest_match do %>
+       <% zz=  event["type"] %>
+       <% dd=  event["FI"] %>
+       <% ee = event["ID"]
+
+   <%= if zz == "EV" && dd == bb do %>
+   <%= event["CT"] %>
+   <br>
+    <%= event["NA"] %>
+     <br>
+    <%=event["FI"] %>
+
+   <% end %>
+
+
+
+ <% end %>

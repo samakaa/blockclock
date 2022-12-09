@@ -1,4 +1,4 @@
-defmodule BlockClock.Workers.DataWorker do
+defmodule BlockClock.Event.DataEvent do
   use GenServer
 
   require Logger
@@ -18,14 +18,13 @@ defmodule BlockClock.Workers.DataWorker do
   #@impl true
   def init(state) do
     updated_state = schedule_worker(state)
-    fetch_flux()
     fetch_event()
     {:ok, updated_state}
   end
 
   def schedule_worker(%{interval_seconds: interval_seconds} = state) do
     # interval provided in seconds, but Process expects it as millis
-    after_ms = interval_seconds * 10_000
+    after_ms = interval_seconds * 1_000
     timer_ref = Process.send_after(self(), :run, after_ms)
     %{state | timer_ref: timer_ref}
 
@@ -34,26 +33,19 @@ defmodule BlockClock.Workers.DataWorker do
   @impl true
   def handle_info(:run, state) do
     fetch_event()
-    fetch_flux()
+
     updated_state = schedule_worker(state)
 
   #  IO.inspect fetch_flux()
-    IO.inspect aa()
+    IO.puts "bb"
+  #  IO.inspect fetch_event()
     #IO.inspect fetch_flux()
     {:noreply, updated_state}
   end
-  def aa() do
-    Blockchain.fetch_flux()
-  end
-  def fetch_event() do
-    Blockchain.create_event()
-  end
-
-  def fetch_flux() do
-
-       Blockchain.create_block()
 
 
-  end
+def fetch_event() do
+  Blockchain.create_event()
+end
 
 end

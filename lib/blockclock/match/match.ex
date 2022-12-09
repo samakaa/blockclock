@@ -1,4 +1,4 @@
-defmodule BlockClock.Store do
+defmodule BlockClock.Match do
   use GenServer
 
   @doc"""
@@ -20,14 +20,13 @@ defmodule BlockClock.Store do
   """
 
   alias Blockclock.PubSub
-  alias BlockClock.Blockchain.Block
 
   # Client API
 
   def start_link(_opts \\ []) do
     # Start the process with an initial state.
     GenServer.start_link(__MODULE__, %{
-      latest_block: nil,
+      latest_match: nil,
       last_updated: DateTime.utc_now()
     }, name: __MODULE__)
   end
@@ -36,12 +35,12 @@ defmodule BlockClock.Store do
     GenServer.call(__MODULE__, :get)
   end
 
-  def set_latest_block(block) do
-    GenServer.cast(__MODULE__, %{set_latest_block: block})
+  def set_latest_match(match) do
+    GenServer.cast(__MODULE__, %{set_latest_match: match})
   end
 
   def subscribe do
-    Phoenix.PubSub.subscribe(PubSub, "data")
+    Phoenix.PubSub.subscribe(PubSub, "bhim")
   end
 
   # Server (callbacks)
@@ -57,9 +56,9 @@ defmodule BlockClock.Store do
   end
 
   @impl true
-  def handle_cast(%{set_latest_block: latest_block}, state) do
+  def handle_cast(%{set_latest_match: latest_match}, state) do
     updated_state = %{
-      state | latest_block: latest_block, last_updated: DateTime.utc_now()
+      state | latest_match: latest_match, last_updated: DateTime.utc_now()
     }
 
     broadcast(:data_updated, updated_state)
@@ -69,7 +68,7 @@ defmodule BlockClock.Store do
 
 
 
-  defp broadcast(:data_updated, data) do
-    Phoenix.PubSub.broadcast(PubSub, "data", {:data_updated, data})
+  defp broadcast(:data_updated, bhim) do
+    Phoenix.PubSub.broadcast(PubSub, "bhim", {:data_updated, bhim})
   end
-end
+  end

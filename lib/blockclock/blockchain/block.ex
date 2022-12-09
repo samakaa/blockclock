@@ -18,16 +18,16 @@ defmodule BlockClock.Blockchain.Block do
     #bits: 0,
     #difficulty: 0
 
-    email: 0,
-    gender: 0,
-    login: 0,
-    name: 0,
-    location: 0,
-    city: 0,
 
+    type: 0,
+
+    HM: 0,
+    league: 0,
+    home: 0,
+    away: 0,
   ]
 
-  def new(attrs \\ %{}) when is_map(attrs) do
+  def new(attrs \\ []) do
     to_struct(attrs)
   end
 
@@ -40,10 +40,16 @@ defmodule BlockClock.Blockchain.Block do
     # Process map, checking for both string / atom keys
     processed_map =
       for key <- keys, into: %{} do
-        value = Map.get(attrs, key) || Map.get(attrs, to_string(key))
-        { key, value }
-      end
 
+        value =  Map.get(attrs, to_string(key))
+        IO.inspect { key, value }
+        { key|> to_string()
+             |> String.downcase()
+             |> String.to_atom(), value }
+      end
+      IO.inspect keys
+      IO.inspect processed_map
     Map.merge(%__MODULE__{}, processed_map)
+
   end
 end
